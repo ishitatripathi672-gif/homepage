@@ -33,9 +33,10 @@
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
             
-            /* Setup Flexbox layout to push footer down cleanly */
+            /* Modern flexible stretch framework */
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             
             /* Abstract Minimalist Dark Aesthetic Background Image */
             background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop');
@@ -55,12 +56,12 @@
         }
 
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
+            from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeInUpDelayed {
-            from { opacity: 0; transform: translateY(40px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -86,19 +87,20 @@
         /* --- FLUID CONTAINERS --- */
         .container { 
             width: 100%;
-            max-width: 1100px; 
+            max-width: 1200px; 
             margin: 0 auto; 
             box-sizing: border-box;
-            padding: 0 24px 60px 24px; 
+            /* Fluid padding adapting dynamically to micro-screens up to desktops */
+            padding: 0 clamp(16px, 4vw, 40px) clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px); 
             position: relative;
             z-index: 1;
-            flex: 1; /* Automatically stretches viewport to force footer downward */
+            flex: 1;
         }
 
         /* --- HEADER LAYOUT & ANIMATIONS --- */
         header { 
             text-align: center; 
-            padding: 80px 16px 40px 16px; 
+            padding: clamp(40px, 10vw, 80px) 0 40px 0; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -109,13 +111,15 @@
         .logo-container {
             display: flex;
             align-items: center;
+            justify-content: center;
+            flex-wrap: wrap; /* Gracefully breaks text below logo on ultra-narrow viewports */
             gap: 16px;
             margin-bottom: 16px;
         }
 
         .site-logo {
-            width: 68px;
-            height: 68px;
+            width: clamp(56px, 8vw, 68px);
+            height: clamp(56px, 8vw, 68px);
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #ffffff;
@@ -126,35 +130,32 @@
             margin: 0; 
             font-family: var(--font-primary);
             color: var(--color-emerald-deep);
-            font-size: clamp(2.4rem, 6vw, 3.6rem); 
+            font-size: clamp(2rem, 5vw, 3.6rem); 
             font-weight: 500; 
             letter-spacing: -1px;
+            text-align: center;
         }
 
         header p { 
             margin: 8px 0 0 0; 
             font-family: var(--font-primary);
             color: var(--color-emerald-mid);
-            font-size: clamp(0.85rem, 2.5vw, 1rem); 
+            font-size: clamp(0.75rem, 2vw, 1rem); 
             font-weight: 400;
             letter-spacing: 2px;
             text-transform: uppercase;
             opacity: 0.85;
+            text-align: center;
         }
         
-        /* --- HIGHLY RESPONSIVE GRID CSS --- */
+        /* --- FULLY RESPONSIVE AUTO-FITTING GRID --- */
         .platform-grid { 
             display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 32px; 
+            /* Grid uses repeat auto-fit to adjust the layout natively without explicit breakpoint jumps */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: clamp(20px, 4vw, 32px); 
             margin-top: 20px;
-        }
-        
-        @media (min-width: 640px) {
-            .platform-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (min-width: 1024px) {
-            .platform-grid { grid-template-columns: repeat(3, 1fr); }
+            width: 100%;
         }
         
         /* --- STAGGERED ENTRANCE ANIMATIONS FOR CARDS --- */
@@ -162,7 +163,7 @@
             background: rgba(255, 255, 255, 0.80); 
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            padding: 40px 30px 40px 30px; 
+            padding: clamp(30px, 5vw, 45px) clamp(20px, 4vw, 30px); 
             border-radius: 20px; 
             box-shadow: 0 10px 30px rgba(30, 41, 59, 0.03), 0 1px 3px rgba(30, 41, 59, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.7);
@@ -184,11 +185,35 @@
         .card:nth-child(2) { animation-delay: 0.3s; }
         .card:nth-child(3) { animation-delay: 0.45s; }
 
-        .card:hover { 
-            transform: translateY(-12px) scale(1.02); 
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 30px 60px rgba(4, 120, 87, 0.12), 0 4px 10px rgba(4, 120, 87, 0.02);
-            border-color: rgba(4, 120, 87, 0.4);
+        /* Smooth scales only on fine-pointer devices (like desktops) to prevent buggy touch behaviors */
+        @media (hover: hover) {
+            .card:hover { 
+                transform: translateY(-12px) scale(1.02); 
+                background: rgba(255, 255, 255, 0.95);
+                box-shadow: 0 30px 60px rgba(4, 120, 87, 0.12), 0 4px 10px rgba(4, 120, 87, 0.02);
+                border-color: rgba(4, 120, 87, 0.4);
+            }
+            .card:hover::before {
+                width: 100px;
+            }
+            .card:hover .card-logo {
+                transform: scale(1.08);
+                border-color: var(--color-emerald-mid);
+                box-shadow: 0 12px 25px rgba(4, 120, 87, 0.2);
+            }
+            .card:hover h3 {
+                color: var(--color-emerald-deep);
+                transform: translateY(-2px);
+            }
+            .card:hover p {
+                color: var(--color-text-dark);
+            }
+            .btn:hover { 
+                background: linear-gradient(135deg, var(--color-emerald-mid) 0%, var(--color-emerald-deep) 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 15px 30px rgba(6, 78, 59, 0.3);
+                letter-spacing: 0.8px;
+            }
         }
 
         .card::before {
@@ -202,9 +227,6 @@
             background: var(--color-emerald-light);
             border-radius: 0 0 4px 4px;
             transition: var(--transition-smooth);
-        }
-        .card:hover::before {
-            width: 100px;
         }
 
         .card-content {
@@ -226,46 +248,32 @@
             transition: var(--transition-smooth);
         }
 
-        .card:hover .card-logo {
-            transform: scale(1.08);
-            border-color: var(--color-emerald-mid);
-            box-shadow: 0 12px 25px rgba(4, 120, 87, 0.2);
-        }
-
         .card h3 { 
             font-family: var(--font-primary);
             color: var(--color-text-dark);
-            font-size: 1.45rem;
+            font-size: clamp(1.25rem, 3vw, 1.45rem);
             font-weight: 500; 
             letter-spacing: -0.5px;
             margin: 0 0 12px 0;
             transition: var(--transition-smooth);
         }
-        
-        .card:hover h3 {
-            color: var(--color-emerald-deep);
-            transform: translateY(-2px);
-        }
 
         .card p {
             font-family: var(--font-primary);
             color: var(--color-text-muted); 
-            font-size: 0.95rem;
+            font-size: clamp(0.88rem, 2vw, 0.95rem);
             line-height: 1.6;
             font-weight: 300;
             margin: 0 0 30px 0;
             transition: var(--transition-smooth);
         }
-        
-        .card:hover p {
-            color: var(--color-text-dark);
-        }
 
         /* --- INTERACTIVE ANIMATED BUTTONS --- */
         .btn { 
-            width: 90%; 
+            width: 100%;
+            max-width: 280px; /* Caps expanding widths nicely on wide columns */
             box-sizing: border-box;
-            padding: 14px 28px; 
+            padding: 14px 24px; 
             background: linear-gradient(135deg, var(--color-emerald-deep) 0%, #022c22 100%); 
             color: #ffffff; 
             text-decoration: none; 
@@ -280,13 +288,6 @@
             transition: var(--transition-smooth);
         }
 
-        .btn:hover { 
-            background: linear-gradient(135deg, var(--color-emerald-mid) 0%, var(--color-emerald-deep) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(6, 78, 59, 0.3);
-            letter-spacing: 0.8px;
-        }
-
         .btn:active {
             transform: translateY(1px) scale(0.98);
             box-shadow: 0 4px 10px rgba(6, 78, 59, 0.2);
@@ -295,13 +296,12 @@
         /* --- STYLED GLASSMORPHISM FOOTER --- */
         footer {
             width: 100%;
-            padding: 30px 24px;
+            padding: 24px clamp(16px, 4vw, 40px);
             box-sizing: border-box;
             background: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-top: 1px solid rgba(255, 255, 255, 0.4);
-            text-align: center;
             position: relative;
             z-index: 1;
             margin-top: auto;
@@ -309,13 +309,14 @@
         }
 
         .footer-content {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
             justify-content: center;
             align-items: center;
+            text-align: center;
         }
 
         .footer-heart {
@@ -325,7 +326,7 @@
         }
 
         .footer-heart span {
-            color: #ef4444; /* Vivid red for heart icon */
+            color: #ef4444;
             display: inline-block;
             animation: beat 1.2s infinite alternate ease-in-out;
         }
@@ -341,10 +342,12 @@
             to { transform: scale(1.2); }
         }
 
-        @media (min-width: 640px) {
+        /* Responsive structural adjustments for tablet viewports upwards */
+        @media (min-width: 540px) {
             .footer-content {
                 flex-direction: row;
                 justify-content: space-between;
+                text-align: left;
             }
         }
     </style>
@@ -356,7 +359,7 @@
     <div class="container">
         <header>
             <div class="logo-container">
-                <img src="logo.png" alt="Team Leakage Logo" class="site-logo">
+                <img src="./logo.png" alt="Team Leakage Logo" class="site-logo">
                 <h1>TeamLeakage</h1>
             </div>
             <p>One Place. All Platforms.</p>
@@ -395,7 +398,6 @@
         </div>
     </div>
 
-    <!-- Added Footer Element -->
     <footer>
         <div class="footer-content">
             <div class="footer-heart">Made with <span>❤️</span> for Students</div>
