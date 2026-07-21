@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
     <!-- Google Fonts for Space Grotesk -->
-     <link rel="icon" href="./logo.png" type="image/png">
+    <link rel="icon" href="./logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -90,7 +90,6 @@
             max-width: 1200px; 
             margin: 0 auto; 
             box-sizing: border-box;
-            /* Fluid padding adapting dynamically to micro-screens up to desktops */
             padding: 0 clamp(16px, 4vw, 40px) clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px); 
             position: relative;
             z-index: 1;
@@ -112,7 +111,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-wrap: wrap; /* Gracefully breaks text below logo on ultra-narrow viewports */
+            flex-wrap: wrap;
             gap: 16px;
             margin-bottom: 16px;
         }
@@ -151,7 +150,6 @@
         /* --- FULLY RESPONSIVE AUTO-FITTING GRID --- */
         .platform-grid { 
             display: grid; 
-            /* Grid uses repeat auto-fit to adjust the layout natively without explicit breakpoint jumps */
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: clamp(20px, 4vw, 32px); 
             margin-top: 20px;
@@ -176,7 +174,6 @@
             box-sizing: border-box;
             position: relative;
             
-            /* Entry States */
             animation: fadeInUpDelayed 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
             transition: var(--transition-smooth);
         }
@@ -185,7 +182,6 @@
         .card:nth-child(2) { animation-delay: 0.3s; }
         .card:nth-child(3) { animation-delay: 0.45s; }
 
-        /* Smooth scales only on fine-pointer devices (like desktops) to prevent buggy touch behaviors */
         @media (hover: hover) {
             .card:hover { 
                 transform: translateY(-12px) scale(1.02); 
@@ -271,7 +267,7 @@
         /* --- INTERACTIVE ANIMATED BUTTONS --- */
         .btn { 
             width: 100%;
-            max-width: 280px; /* Caps expanding widths nicely on wide columns */
+            max-width: 280px; 
             box-sizing: border-box;
             padding: 14px 24px; 
             background: linear-gradient(135deg, var(--color-emerald-deep) 0%, #022c22 100%); 
@@ -342,7 +338,170 @@
             to { transform: scale(1.2); }
         }
 
-        /* Responsive structural adjustments for tablet viewports upwards */
+        /* --- ENHANCED POPUP BANNER MODAL STYLES --- */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-card {
+            position: relative;
+            max-width: 580px;
+            width: 100%;
+            /* Set to the same background image as body with a readable dark overlay */
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.88)), 
+                        url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.2);
+            transform: scale(0.88) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .popup-overlay.active .popup-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, 0.65);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: var(--transition-smooth);
+        }
+
+        .popup-close:hover {
+            background: #ef4444;
+            border-color: #ef4444;
+            transform: rotate(90deg) scale(1.08);
+        }
+
+        .popup-banner-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .popup-body {
+            padding: 24px 28px 28px 28px;
+            text-align: center;
+        }
+
+        .popup-body h3 {
+            margin: 0 0 10px 0;
+            font-family: var(--font-primary);
+            font-size: clamp(1.2rem, 3vw, 1.45rem);
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .popup-body p {
+            margin: 0 0 24px 0;
+            font-family: var(--font-primary);
+            font-size: clamp(0.88rem, 2vw, 0.95rem);
+            line-height: 1.55;
+            color: #cbd5e1;
+            font-weight: 300;
+        }
+
+        .popup-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .popup-btn-primary {
+            flex: 1;
+            min-width: 200px;
+            background: linear-gradient(135deg, #0088cc 0%, #006699 100%);
+            color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+            padding: 13px 20px;
+            border-radius: 12px;
+            font-family: var(--font-primary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .popup-btn-primary:hover {
+            background: linear-gradient(135deg, #0099e6 0%, #0077b3 100%);
+            box-shadow: 0 10px 25px rgba(0, 136, 204, 0.45);
+            transform: translateY(-2px);
+        }
+
+        .popup-btn-secondary {
+            flex: 1;
+            min-width: 130px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            padding: 13px 20px;
+            border-radius: 12px;
+            font-weight: 400;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-primary);
+        }
+
+        .popup-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
         @media (min-width: 540px) {
             .footer-content {
                 flex-direction: row;
@@ -409,7 +568,7 @@
             <!-- Platform Card 5 -->
             <div class="card">
                 <div class="card-content">
-                    <img src="./unacademy_logo.jpg" alt="Uacademy Logo" class="card-logo">
+                    <img src="./unacademy_logo.jpg" alt="Unacademy Logo" class="card-logo">
                     <h3>Unacademy</h3>
                     <p>Unacademy is democratising education, making it accessible to all. Join the revolution, learn on India's largest learning platform.</p>
                 </div>
@@ -434,6 +593,55 @@
             <div class="footer-copyright">&copy; 2026 TeamLeakage. All rights reserved.</div>
         </div>
     </footer>
+
+    <!-- POPUP MODAL -->
+    <div id="bannerPopup" class="popup-overlay">
+        <div class="popup-card">
+            <button class="popup-close" id="closePopup" aria-label="Close Pop-up">&times;</button>
+            <img src="./TeamLeakage Banner.png" alt="TeamLeakage Telegram Banner" class="popup-banner-img">
+            
+            <div class="popup-body">
+                <h3>Join Our Official Telegram Channel!</h3>
+                <p>Stay ahead with instant batch updates, exclusive study resources, important exam announcements, and a thriving learning community.</p>
+                
+                <div class="popup-actions">
+                    <a href="https://t.me/TeamLeakage" target="_blank" class="popup-btn-primary">
+                        Join Telegram Channel
+                    </a>
+                    <button id="askLaterBtn" class="popup-btn-secondary">Ask Me Later</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP CONTROLLER SCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const popup = document.getElementById("bannerPopup");
+            const closeBtn = document.getElementById("closePopup");
+            const askLaterBtn = document.getElementById("askLaterBtn");
+
+            // Auto-display modal 500ms after load
+            setTimeout(() => {
+                popup.classList.add("active");
+            }, 500);
+
+            const closePopupModal = () => {
+                popup.classList.remove("active");
+            };
+
+            // Close listeners
+            closeBtn.addEventListener("click", closePopupModal);
+            askLaterBtn.addEventListener("click", closePopupModal);
+
+            // Close modal when clicking dark overlay background
+            popup.addEventListener("click", (e) => {
+                if (e.target === popup) {
+                    closePopupModal();
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
