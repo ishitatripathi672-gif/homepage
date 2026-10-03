@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <title>TeamLeakage | One Place for All Educational Platforms</title>
     <meta name="title" content="TeamLeakage | One Place for All Educational Platforms">
@@ -25,7 +25,7 @@
             --emerald-glow: #10b981;
             --emerald-dark: #022c22;
             --bg-dark: #030712;
-            --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -35,113 +35,136 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        html, body {
+        html {
             width: 100%;
-            height: 100%;
+            height: -webkit-fill-available;
+            overflow-x: hidden;
         }
 
         body { 
             font-family: var(--font-primary); 
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            min-height: -webkit-fill-available;
             overflow-x: hidden;
             position: relative;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             background-color: var(--bg-dark);
             color: #f8fafc;
             -webkit-font-smoothing: antialiased;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
         }
 
-        /* WebGL Background Canvas */
+        /* Fixed Fullscreen WebGL Background Canvas */
         #webgl-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
-            height: 100vh;
+            height: 100dvh;
             z-index: 0;
             pointer-events: none;
         }
 
+        /* Main Container */
         .container { 
             width: 100%;
-            max-width: 1240px; 
+            max-width: 1280px; 
             margin: 0 auto; 
-            padding: 0 clamp(16px, 4vw, 40px) clamp(24px, 5vw, 60px) clamp(16px, 4vw, 40px); 
+            padding: 0 clamp(12px, 3.5vw, 36px) clamp(20px, 4vw, 48px) clamp(12px, 3.5vw, 36px); 
             position: relative;
             z-index: 1;
             flex: 1;
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
         }
 
-        /* Responsive Header Section */
+        /* Header Section */
         header { 
             text-align: center; 
-            padding: clamp(32px, 6vw, 64px) 0 clamp(20px, 4vw, 36px) 0; 
+            padding: clamp(18px, 4vw, 48px) 0 clamp(12px, 2.5vw, 24px) 0; 
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: clamp(10px, 3vw, 16px);
-            margin-bottom: clamp(8px, 2vw, 14px);
+            gap: clamp(8px, 2.5vw, 14px);
+            margin-bottom: clamp(6px, 1.2vw, 10px);
+            max-width: 100%;
         }
 
         .site-logo {
-            width: clamp(48px, 7vw, 72px);
-            height: clamp(48px, 7vw, 72px);
+            width: clamp(38px, 5.5vw, 64px);
+            height: clamp(38px, 5.5vw, 64px);
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid rgba(16, 185, 129, 0.4);
-            box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
             flex-shrink: 0;
         }
 
         h1 { 
             font-family: var(--font-accent);
             color: #ffffff;
-            font-size: clamp(2rem, 5vw, 3.8rem); 
+            font-size: clamp(2rem, 4.2vw, 3.4rem); 
             font-weight: 800; 
-            letter-spacing: -1px;
-            text-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
-            line-height: 1.1;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            line-height: 1.15;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        /* Mobile Viewport Specific H1 Size Adjustment */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 22px !important;
+                letter-spacing: -0.2px !important;
+                line-height: 1.1 !important;
+            }
         }
 
         header p { 
             font-family: var(--font-accent);
             color: var(--emerald-glow);
-            font-size: clamp(0.75rem, 1.8vw, 0.95rem); 
+            font-size: clamp(0.65rem, 1.4vw, 0.88rem); 
             font-weight: 700;
-            letter-spacing: clamp(2px, 0.5vw, 4px);
+            letter-spacing: clamp(1.2px, 0.3vw, 3px);
             text-transform: uppercase;
             opacity: 0.9;
-            margin-top: 8px;
+            margin-top: 4px;
         }
 
-        /* Fully Responsive Grid System */
+        /* Fluid Grid */
         .platform-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 28vw, 340px), 1fr)); 
-            gap: clamp(16px, 3vw, 28px); 
-            margin-top: 16px;
+            grid-template-columns: 1fr;
+            gap: clamp(12px, 2.2vw, 22px); 
+            margin-top: 10px;
             width: 100%;
         }
 
-        /* Glass Cards */
+        /* Cards */
         .card { 
-            background: linear-gradient(145deg, rgba(15, 23, 42, 0.6) 0%, rgba(3, 7, 18, 0.7) 100%); 
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.65) 0%, rgba(3, 7, 18, 0.75) 100%); 
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            padding: clamp(24px, 3.5vw, 36px) clamp(16px, 2.5vw, 26px); 
-            border-radius: 18px; 
+            padding: clamp(18px, 2.8vw, 30px) clamp(14px, 2.2vw, 22px); 
+            border-radius: 16px; 
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
             
             display: flex;
             flex-direction: column;
@@ -150,124 +173,143 @@
             text-align: center; 
             position: relative;
             transition: var(--transition-smooth);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
         }
 
         .card-logo {
-            width: clamp(52px, 6vw, 64px);
-            height: clamp(52px, 6vw, 64px);
+            width: clamp(44px, 5vw, 56px);
+            height: clamp(44px, 5vw, 56px);
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid rgba(16, 185, 129, 0.2);
             background-color: #ffffff;
-            margin-bottom: clamp(14px, 2vw, 20px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            transition: var(--transition-smooth);
+            margin-bottom: clamp(10px, 1.5vw, 16px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
             flex-shrink: 0;
         }
 
         .card h3 { 
             font-family: var(--font-accent);
             color: #ffffff;
-            font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+            font-size: clamp(1.05rem, 1.8vw, 1.3rem);
             font-weight: 700; 
-            letter-spacing: -0.4px;
-            margin-bottom: 10px;
+            letter-spacing: -0.3px;
+            margin-bottom: 6px;
             line-height: 1.25;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            width: 100%;
         }
 
         .card p {
             color: #94a3b8; 
-            font-size: clamp(0.84rem, 1.6vw, 0.92rem);
-            line-height: 1.55;
+            font-size: clamp(0.8rem, 1.4vw, 0.88rem);
+            line-height: 1.5;
             font-weight: 300;
-            margin-bottom: clamp(20px, 3vw, 28px);
+            margin-bottom: clamp(16px, 2.2vw, 24px);
+            width: 100%;
         }
 
-        /* Action Buttons */
+        /* Buttons */
         .btn { 
             font-family: var(--font-accent);
             width: 100%;
-            padding: clamp(11px, 2vw, 13px) 20px; 
+            padding: clamp(10px, 1.6vw, 12px) 14px; 
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.15) 100%); 
             color: #ffffff; 
             text-decoration: none; 
-            border-radius: 12px; 
+            border-radius: 10px; 
             font-weight: 700;
-            font-size: clamp(0.85rem, 1.5vw, 0.92rem);
-            letter-spacing: 0.5px;
+            font-size: clamp(0.8rem, 1.3vw, 0.88rem);
+            letter-spacing: 0.3px;
             margin-top: auto; 
             border: 1px solid rgba(16, 185, 129, 0.35);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             transition: var(--transition-smooth);
             display: inline-block;
+            box-sizing: border-box;
         }
 
-        @media (hover: hover) {
+        /* Tablet Grid */
+        @media (min-width: 580px) {
+            .platform-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Desktop Grid */
+        @media (min-width: 992px) {
+            .platform-grid {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            }
+        }
+
+        @media (hover: hover) and (min-width: 1024px) {
             .card:hover {
                 transform: translateY(-6px);
                 background: linear-gradient(145deg, rgba(15, 23, 42, 0.8) 0%, rgba(3, 7, 18, 0.85) 100%); 
                 border-color: rgba(16, 185, 129, 0.4);
-                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 20px rgba(16, 185, 129, 0.15);
+                box-shadow: 0 18px 36px rgba(0, 0, 0, 0.6), 0 0 18px rgba(16, 185, 129, 0.15);
             }
 
             .btn:hover { 
                 background: var(--emerald-glow);
                 color: #030712;
-                box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+                box-shadow: 0 8px 18px rgba(16, 185, 129, 0.4);
                 border-color: var(--emerald-glow);
-            }
-        }
-
-        /* Screen Breakpoints for Mobile Phones */
-        @media (max-width: 580px) {
-            .platform-grid {
-                grid-template-columns: 1fr;
-            }
-            .card {
-                padding: 22px 18px;
             }
         }
 
         /* Footer */
         footer {
             width: 100%;
-            padding: 18px clamp(16px, 4vw, 40px);
+            padding: 14px clamp(12px, 3.5vw, 36px);
+            padding-bottom: calc(14px + env(safe-area-inset-bottom));
             background: rgba(3, 7, 18, 0.85);
             backdrop-filter: blur(12px);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
             z-index: 1;
             margin-top: auto;
+            box-sizing: border-box;
         }
 
         .footer-content {
-            max-width: 1240px;
+            max-width: 1280px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 4px;
             justify-content: center;
             align-items: center;
             text-align: center;
         }
 
         .footer-heart {
-            font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+            font-size: clamp(0.75rem, 1.4vw, 0.85rem);
             color: #cbd5e1;
         }
 
         .footer-copyright {
-            font-size: clamp(0.75rem, 1.5vw, 0.82rem);
+            font-size: clamp(0.7rem, 1.2vw, 0.78rem);
             color: #64748b;
         }
 
-        /* Responsive Pop-up Banner Modal */
+        /* Popup */
         .popup-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
-            height: 100vh;
+            height: 100dvh;
             background: rgba(3, 7, 18, 0.85);
             backdrop-filter: blur(12px);
             display: flex;
@@ -278,6 +320,9 @@
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
             padding: 16px;
+            padding-top: calc(16px + env(safe-area-inset-top));
+            padding-bottom: calc(16px + env(safe-area-inset-bottom));
+            box-sizing: border-box;
         }
 
         .popup-overlay.active {
@@ -287,28 +332,30 @@
 
         .popup-card {
             position: relative;
-            max-width: 500px;
+            max-width: 460px;
             width: 100%;
-            max-height: 90vh;
+            max-height: 85dvh;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             background: #0f172a;
-            border-radius: 20px;
+            border-radius: 18px;
             border: 1px solid rgba(255, 255, 255, 0.12);
             color: #ffffff;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
         }
 
         .popup-close {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 34px;
-            height: 34px;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
             background: rgba(0, 0, 0, 0.65);
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
-            font-size: 20px;
+            font-size: 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -323,55 +370,55 @@
         }
 
         .popup-body {
-            padding: clamp(16px, 4vw, 24px);
+            padding: clamp(12px, 3vw, 20px);
             text-align: center;
         }
 
         .popup-body h3 {
             font-family: var(--font-accent);
-            margin-bottom: 8px;
-            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            margin-bottom: 6px;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
             font-weight: 700;
         }
 
         .popup-body p {
-            margin-bottom: 20px;
-            font-size: clamp(0.82rem, 2vw, 0.88rem);
+            margin-bottom: 16px;
+            font-size: clamp(0.78rem, 1.6vw, 0.84rem);
             color: #94a3b8;
             line-height: 1.5;
         }
 
         .popup-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .popup-btn-primary {
             font-family: var(--font-accent);
             flex: 1;
-            min-width: 160px;
+            min-width: 130px;
             background: #0088cc;
             color: #ffffff;
             text-align: center;
             text-decoration: none;
-            padding: 12px 16px;
-            border-radius: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
             font-weight: 700;
-            font-size: 0.88rem;
+            font-size: 0.82rem;
         }
 
         .popup-btn-secondary {
             font-family: var(--font-accent);
             flex: 1;
-            min-width: 100px;
+            min-width: 85px;
             background: rgba(255, 255, 255, 0.08);
             color: #94a3b8;
-            padding: 12px 16px;
-            border-radius: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
             border: none;
             cursor: pointer;
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             font-weight: 700;
         }
 
@@ -385,7 +432,7 @@
 </head>
 <body>
 
-    <!-- WebGL Canvas Layer -->
+    <!-- WebGL Background Layer -->
     <canvas id="webgl-canvas"></canvas>
 
     <div class="container">
@@ -497,19 +544,29 @@
         </div>
     </div>
 
-    <!-- RESPONSIVE 3D SMOKEY SHADER ENGINE -->
+    <!-- RESPONSIVE 3D SMOKEY ENGINE -->
     <script>
         const canvas = document.getElementById('webgl-canvas');
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-        camera.position.z = 1000;
+        
+        function setAdaptiveCameraZ() {
+            if (window.innerWidth < 600) {
+                camera.position.z = 1300;
+            } else if (window.innerWidth < 1024) {
+                camera.position.z = 1100;
+            } else {
+                camera.position.z = 1000;
+            }
+        }
+        setAdaptiveCameraZ();
 
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // 1. Smokey Lighting Setup
+        // Lighting Setup
         const ambientLight = new THREE.AmbientLight(0x059669, 0.4);
         scene.add(ambientLight);
 
@@ -521,7 +578,7 @@
         darkGreenLight.position.set(-500, -300, 300);
         scene.add(darkGreenLight);
 
-        // 2. Procedural Smoke Texture Generator
+        // Smoke Texture Generator
         function createSmokeTexture() {
             const size = 128;
             const canvasTex = document.createElement('canvas');
@@ -540,7 +597,7 @@
             return new THREE.CanvasTexture(canvasTex);
         }
 
-        // 3. Volumetric Smoke Particles
+        // Smoke Particles Creation
         const smokeGeo = new THREE.PlaneGeometry(500, 500);
         const smokeMat = new THREE.MeshLambertMaterial({
             map: createSmokeTexture(),
@@ -551,8 +608,9 @@
         });
 
         const smokeParticles = [];
+        const particleCount = window.innerWidth < 600 ? 18 : 32;
 
-        for (let i = 0; i < 35; i++) {
+        for (let i = 0; i < particleCount; i++) {
             const particle = new THREE.Mesh(smokeGeo, smokeMat);
             particle.position.set(
                 (Math.random() - 0.5) * 1200,
@@ -564,7 +622,7 @@
             smokeParticles.push(particle);
         }
 
-        // 4. Pointer Interaction for Touch and Mouse
+        // Pointer Interaction
         let mouseX = 0;
         let mouseY = 0;
 
@@ -580,7 +638,7 @@
             }
         }, { passive: true });
 
-        // 5. Animation Loop
+        // Animation Loop
         const clock = new THREE.Clock();
 
         function animate() {
@@ -603,8 +661,9 @@
 
         animate();
 
-        // 6. Dynamic Viewport Resizing
+        // Responsive Resize & Orientation Handler
         function onWindowResize() {
+            setAdaptiveCameraZ();
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -613,10 +672,10 @@
 
         window.addEventListener('resize', onWindowResize);
         window.addEventListener('orientationchange', () => {
-            setTimeout(onWindowResize, 100);
+            setTimeout(onWindowResize, 150);
         });
 
-        // Modal Controller
+        // Popup Controller
         document.addEventListener("DOMContentLoaded", () => {
             const popup = document.getElementById("bannerPopup");
             const closeBtn = document.getElementById("closePopup");
